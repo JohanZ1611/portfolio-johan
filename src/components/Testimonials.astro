@@ -1,3 +1,246 @@
-<section id="contact" class="min-h-screen flex items-center justify-center bg-[#F8F7F1]">
-  <h2 class="text-2xl font-semibold text-gray-400">Contact</h2>
+---
+const testimonials = [
+  {
+    id: 1,
+    quote: "A complete search of the internet has found these results satisfactory result is the most popular phrase on the web. You wouldn't really say that it was satisfying",
+    name: "Julian Marin",
+    role: "FullStack Developer",
+    avatar: "/img/testimonials/avatar-1.png",
+  },
+  {
+    id: 2,
+    quote: "A complete search of the internet has found these results satisfactory result is the most popular phrase on the web. You wouldn't really say that it was satisfying",
+    name: "Julian Marin",
+    role: "FullStack Developer",
+    avatar: "/img/testimonials/avatar-2.png",
+  },
+  {
+    id: 3,
+    quote: "A complete search of the internet has found these results satisfactory result is the most popular phrase on the web. You wouldn't really say that it was satisfying",
+    name: "Julian Marin",
+    role: "FullStack Developer",
+    avatar: "/img/testimonials/avatar-3.png",
+  },
+  {
+    id: 4,
+    quote: "Working with Johan was an incredible experience. His attention to detail and technical skills made our project a huge success beyond expectations.",
+    name: "Maria Lopez",
+    role: "Product Manager",
+    avatar: "/img/testimonials/avatar-4.png",
+  },
+  {
+    id: 5,
+    quote: "Johan delivered outstanding results. The app he built for us exceeded all our expectations and our users absolutely love it.",
+    name: "Carlos Ruiz",
+    role: "CEO & Founder",
+    avatar: "/img/testimonials/avatar-5.png",
+  },
+];
+---
+
+<section id="contact" class="min-h-screen bg-[#F8F7F1] flex flex-col items-center justify-center px-4 md:px-16 py-20 overflow-hidden">
+
+  <!-- Header -->
+  <div class="test-header opacity-0 translate-y-6 text-center mb-20">
+    <h2 class="text-4xl md:text-5xl font-black text-[#1a2e3b]" style="font-family: 'Saira', sans-serif;">
+      People Talk About Me
+    </h2>
+    <p class="text-sm text-gray-500 mt-4 leading-relaxed max-w-md mx-auto">
+      I got a job that was in accordance with the salary and field of work, The process
+      of submitting an application was quite cosy
+    </p>
+  </div>
+
+  <!-- Cards desktop: siempre 3 slots visibles -->
+  <div class="hidden md:grid grid-cols-3 gap-6 w-full max-w-4xl items-start">
+    {[0, 1, 2].map((slot) => (
+      <div class={`test-slot-${slot} relative pt-14 transition-all duration-500`}>
+        <!-- Avatar -->
+        <div class="slot-avatar absolute top-0 left-1/2 -translate-x-1/2 z-10">
+          <div class="w-20 h-20 rounded-full border-4 border-white shadow-lg overflow-hidden bg-gray-200 flex items-center justify-center">
+            <svg class="w-12 h-12 text-gray-500" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+            </svg>
+          </div>
+        </div>
+        <!-- Card inner -->
+        <div class="slot-card bg-white rounded-3xl shadow-md px-6 pt-12 pb-8 text-center transition-all duration-500">
+          <p class="slot-quote text-sm text-gray-600 leading-relaxed italic"></p>
+          <hr class="my-5 border-gray-200" />
+          <h4 class="slot-name font-black text-[#1a2e3b] text-base" style="font-family: 'Saira', sans-serif;"></h4>
+          <p class="slot-role text-xs text-gray-400 mt-1"></p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Cards mobile: una a la vez -->
+  <div class="md:hidden w-full max-w-sm mx-auto">
+    <div class="relative pt-14 min-h-72">
+      <div class="mobile-slot relative pt-14">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 z-10">
+          <div class="w-20 h-20 rounded-full border-4 border-white shadow-lg overflow-hidden bg-gray-200 flex items-center justify-center">
+            <svg class="w-12 h-12 text-gray-500" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="bg-white rounded-3xl shadow-md px-6 pt-12 pb-8 text-center">
+          <p class="mobile-quote text-sm text-gray-600 leading-relaxed italic"></p>
+          <hr class="my-5 border-gray-200" />
+          <h4 class="mobile-name font-black text-[#1a2e3b] text-base" style="font-family: 'Saira', sans-serif;"></h4>
+          <p class="mobile-role text-xs text-gray-400 mt-1"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div class="flex items-center justify-center gap-4 mt-12">
+    <button id="test-prev"
+      class="w-12 h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center transition-all duration-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button id="test-next"
+      class="w-12 h-12 rounded-full bg-[#28656C] flex items-center justify-center transition-all duration-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
+
 </section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const data = [
+    { quote: "A complete search of the internet has found these results satisfactory result is the most popular phrase on the web. You wouldn't really say that it was satisfying", name: "Julian Marin", role: "FullStack Developer" },
+    { quote: "A complete search of the internet has found these results satisfactory result is the most popular phrase on the web. You wouldn't really say that it was satisfying", name: "Julian Marin", role: "FullStack Developer" },
+    { quote: "A complete search of the internet has found these results satisfactory result is the most popular phrase on the web. You wouldn't really say that it was satisfying", name: "Julian Marin", role: "FullStack Developer" },
+    { quote: "Working with Johan was an incredible experience. His attention to detail and technical skills made our project a huge success beyond expectations.", name: "Maria Lopez", role: "Product Manager" },
+    { quote: "Johan delivered outstanding results. The app he built for us exceeded all our expectations and our users absolutely love it.", name: "Carlos Ruiz", role: "CEO & Founder" },
+  ];
+
+  const total = data.length;
+  let current = 0;
+
+  // Helpers para obtener índice con wrap
+  function wrap(i: number) {
+    return ((i % total) + total) % total;
+  }
+
+  // Slots desktop: 0=izquierda, 1=centro, 2=derecha
+  function getSlotEl(slot: number) {
+    return document.querySelector(`.test-slot-${slot}`) as HTMLElement;
+  }
+
+  function fillSlot(slot: number, dataIndex: number) {
+    const el = getSlotEl(slot);
+    if (!el) return;
+    const d = data[dataIndex];
+    const quote = el.querySelector('.slot-quote') as HTMLElement;
+    const name = el.querySelector('.slot-name') as HTMLElement;
+    const role = el.querySelector('.slot-role') as HTMLElement;
+    if (quote) quote.textContent = `"${d.quote}"`;
+    if (name) name.textContent = d.name;
+    if (role) role.textContent = d.role;
+  }
+
+  function updateDesktop() {
+    const leftIdx = wrap(current - 1);
+    const centerIdx = current;
+    const rightIdx = wrap(current + 1);
+
+    fillSlot(0, leftIdx);
+    fillSlot(1, centerIdx);
+    fillSlot(2, rightIdx);
+
+    // Estilos por slot
+    const styles = [
+      { scale: 'scale(0.93)', opacity: '0.55', shadow: '0 4px 12px rgba(0,0,0,0.06)' },  // izquierda
+      { scale: 'scale(1.05)', opacity: '1',    shadow: '0 20px 40px rgba(0,0,0,0.12)' }, // centro
+      { scale: 'scale(0.93)', opacity: '0.55', shadow: '0 4px 12px rgba(0,0,0,0.06)' },  // derecha
+    ];
+
+    [0, 1, 2].forEach((slot) => {
+      const el = getSlotEl(slot);
+      if (!el) return;
+      const card = el.querySelector('.slot-card') as HTMLElement;
+      el.style.transform = styles[slot].scale;
+      el.style.opacity = styles[slot].opacity;
+      el.style.zIndex = slot === 1 ? '10' : '1';
+      if (card) card.style.boxShadow = styles[slot].shadow;
+    });
+  }
+
+  function updateMobile() {
+    const d = data[current];
+    const quote = document.querySelector('.mobile-quote') as HTMLElement;
+    const name = document.querySelector('.mobile-name') as HTMLElement;
+    const role = document.querySelector('.mobile-role') as HTMLElement;
+    if (quote) quote.textContent = `"${d.quote}"`;
+    if (name) name.textContent = d.name;
+    if (role) role.textContent = d.role;
+  }
+
+  function updateButtons() {
+    const prevEl = document.getElementById('test-prev') as HTMLElement;
+    const nextEl = document.getElementById('test-next') as HTMLElement;
+    // El botón de la dirección en la que venimos se pone verde
+    // Siempre next verde por defecto, prev verde si estamos avanzados
+    if (current > 0) {
+      prevEl.style.cssText = 'width:3rem;height:3rem;border-radius:9999px;background-color:#28656C;border:none;display:flex;align-items:center;justify-content:center;transition:all 0.3s;';
+      prevEl.querySelector('svg')?.setAttribute('stroke', 'white');
+      nextEl.style.cssText = 'width:3rem;height:3rem;border-radius:9999px;background-color:white;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;transition:all 0.3s;';
+      nextEl.querySelector('svg')?.setAttribute('stroke', '#9ca3af');
+    } else {
+      prevEl.style.cssText = 'width:3rem;height:3rem;border-radius:9999px;background-color:white;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;transition:all 0.3s;';
+      prevEl.querySelector('svg')?.setAttribute('stroke', '#9ca3af');
+      nextEl.style.cssText = 'width:3rem;height:3rem;border-radius:9999px;background-color:#28656C;border:none;display:flex;align-items:center;justify-content:center;transition:all 0.3s;';
+      nextEl.querySelector('svg')?.setAttribute('stroke', 'white');
+    }
+  }
+
+  function update() {
+    updateDesktop();
+    updateMobile();
+    updateButtons();
+  }
+
+  document.getElementById('test-next')?.addEventListener('click', () => {
+    current = wrap(current + 1);
+    update();
+  });
+
+  document.getElementById('test-prev')?.addEventListener('click', () => {
+    current = wrap(current - 1);
+    update();
+  });
+
+  ScrollTrigger.create({
+    trigger: "#contact",
+    start: "top 70%",
+    onEnter: () => {
+      gsap.to(".test-header", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+      gsap.fromTo(['.test-slot-0', '.test-slot-1', '.test-slot-2'],
+        { opacity: 0, y: 30 },
+        { opacity: (i) => i === 1 ? 1 : 0.55, y: 0, duration: 0.6, stagger: 0.15, ease: "power2.out", delay: 0.2,
+          onComplete: () => update()
+        }
+      );
+    },
+    onLeaveBack: () => {
+      gsap.set(".test-header", { opacity: 0, y: 24 });
+      gsap.set(['.test-slot-0', '.test-slot-1', '.test-slot-2'], { opacity: 0 });
+    },
+  });
+
+  // Init
+  update();
+</script>
