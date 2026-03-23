@@ -8,12 +8,16 @@ const links = [
 ];
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-white/80 backdrop-blur-sm">
+<nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-transparent">
   <a href="#home" class="font-bold text-lg">JZ</a>
 
   <ul class="hidden md:flex gap-8">
     {links.map(l => (
-      <li><a href={l.href} class="text-sm text-gray-700 hover:text-black transition-colors">{l.label}</a></li>
+      <li>
+        <a href={l.href} data-section={l.href.replace('#', '')} class="nav-link relative px-3 py-1 text-sm text-gray-700 hover:text-[#28656C] transition-colors" style="font-family: 'Saira Condensed', sans-serif; font-weight: 400;">
+          {l.label}
+        </a>
+      </li>
     ))}
   </ul>
 
@@ -21,7 +25,6 @@ const links = [
     Download CV
   </a>
 
-  <!-- Mobile toggle -->
   <button id="menu-btn" class="md:hidden flex flex-col gap-1.5">
     <span class="block w-6 h-0.5 bg-gray-800"></span>
     <span class="block w-6 h-0.5 bg-gray-800"></span>
@@ -30,12 +33,29 @@ const links = [
 
   <ul id="mobile-menu" class="hidden flex-col absolute top-full left-0 right-0 bg-white shadow-lg px-8 py-4 gap-4">
     {links.map(l => (
-      <li><a href={l.href} class="mobile-link block py-2 text-sm border-b border-gray-100">{l.label}</a></li>
+      <li>
+        <a href={l.href} class="mobile-link block py-2 text-sm border-b border-gray-100"
+          style="font-family: 'Saira Condensed', sans-serif;">
+          {l.label}
+        </a>
+      </li>
     ))}
   </ul>
 </nav>
 
+<style>
+  .nav-link.active {
+    color: #28656C;
+    font-weight: 700;
+    border: 2px solid #28656C;
+    border-radius: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+</style>
+
 <script>
+  // Mobile menu
   const btn = document.getElementById('menu-btn');
   const menu = document.getElementById('mobile-menu');
   btn?.addEventListener('click', () => {
@@ -48,4 +68,29 @@ const links = [
       menu?.classList.remove('flex');
     })
   );
+
+  // Active section detection
+  const sections = document.querySelectorAll('section[id], footer[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navLinks.forEach((link) => {
+            link.classList.remove('active');
+            (link as HTMLElement).style.fontWeight = '400';
+          });
+          const active = document.querySelector(`.nav-link[data-section="${entry.target.id}"]`);
+          if (active) {
+            active.classList.add('active');
+            (active as HTMLElement).style.fontWeight = '700';
+          }
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  sections.forEach((section) => observer.observe(section));
 </script>
