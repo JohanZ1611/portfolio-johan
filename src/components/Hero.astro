@@ -1,3 +1,128 @@
-<section id="home" class="min-h-screen flex items-center justify-center bg-[#F8F7F1]">
-  <h2 class="text-2xl font-semibold text-gray-400">Hero</h2>
+---
+---
+
+<section id="home" class="min-h-screen bg-[#F8F7F1] flex items-center px-8 md:px-16 pt-20">
+  <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+
+    <!-- Columna izquierda -->
+    <div class="flex flex-col gap-8">
+      <h1 class="text-[52px] md:text-[80px] font-black text-[#1a2e3b] leading-none text-left" style="font-family: 'Saira', sans-serif;">
+        <span id="hero-title"></span><span id="hero-cursor" class="inline-block w-[4px] bg-[#1a2e3b] ml-1 align-middle" style="height: 0.85em;">&#8203;</span>
+      </h1>
+
+      <p class="hero-fade block md:hidden text-sm text-gray-600 leading-relaxed opacity-0">
+        I weave code with art and functionality,
+        transforming ideas into captivating digital experiences.
+      </p>
+
+      <span class="hero-fade text-[#e05a2b] font-bold text-base mt-4 opacity-0">FullStack Developer</span>
+
+      <!-- Mobile: años de experiencia -->
+      <div class="hero-fade flex md:hidden items-center gap-2 opacity-0">
+        <span class="text-6xl font-black text-[#1a2e3b]" style="font-family: 'Saira', sans-serif;">2</span>
+        <div class="flex flex-col leading-tight text-left">
+          <span class="text-[20px] font-semibold text-[#1a2e3b] uppercase">Year</span>
+          <span class="text-[20px] font-semibold text-[#1a2e3b] uppercase">Experience</span>
+        </div>
+      </div>
+
+      <!-- Imagen mobile -->
+      <div class="hero-fade block md:hidden w-full mt-2 opacity-0">
+        <img src="/img/hero-character.png" alt="Johan character" class="w-full object-contain" />
+      </div>
+
+      <!-- Desktop: años de experiencia -->
+      <div class="hero-fade hidden md:flex items-center gap-2 mt-4 opacity-0">
+        <span class="text-6xl font-black text-[#1a2e3b]" style="font-family: 'Saira', sans-serif;">2</span>
+        <div class="flex flex-col leading-tight text-left">
+          <span class="text-[20px] font-semibold text-[#1a2e3b] uppercase">Year</span>
+          <span class="text-[20px] font-semibold text-[#1a2e3b] uppercase">Experience</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna centro: imagen desktop -->
+    <div id="hero-img-desktop" class="hidden md:flex justify-center items-center opacity-0">
+      <img src="/img/hero-character.png" alt="Johan character" class="w-full max-w-sm object-contain scale-110 translate-y-6" />
+    </div>
+
+    <!-- Columna derecha: solo desktop -->
+    <div id="hero-right" class="hidden md:flex flex-col gap-16 items-center justify-between h-full pt-16 opacity-0">
+      <p class="text-sm text-gray-600 leading-relaxed text-right">
+        I weave code with art and functionality,<br />
+        transforming ideas into captivating digital experiences.
+      </p>
+
+      <div class="flex flex-col items-center gap-2 text-center pb-8">
+        <img src="/img/mindhub-badge.png" alt="Mindhub Certificate" class="w-20 h-20 object-contain" />
+        <p class="text-xs font-bold text-[#1a2e3b] uppercase tracking-wider leading-snug">
+          Mindhub Certificate<br />Fullstack MERN<br />Developer
+        </p>
+      </div>
+    </div>
+
+  </div>
 </section>
+
+<script>
+  import { gsap } from "gsap";
+  import { TextPlugin } from "gsap/TextPlugin";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(TextPlugin, ScrollTrigger);
+
+  function resetHero() {
+    gsap.set("#hero-title", { text: "" });
+    gsap.set("#hero-cursor", { opacity: 1 });
+    gsap.set(".hero-fade, #hero-img-desktop, #hero-right", { opacity: 0, y: 16 });
+  }
+
+  function runHeroAnimation() {
+    const tl = gsap.timeline();
+
+    // Cursor parpadeando mientras escribe
+    gsap.to("#hero-cursor", {
+      opacity: 0,
+      repeat: -1,
+      yoyo: true,
+      duration: 0.5,
+      ease: "none",
+      id: "cursor-blink",
+    });
+
+    tl.to("#hero-title", {
+      duration: 1.8,
+      text: { value: "Hey There,\nI'm Johan.", delimiter: "" },
+      ease: "none",
+    })
+    // Al terminar de escribir, detener parpadeo y ocultar cursor
+    .call(() => {
+      gsap.killTweensOf("#hero-cursor");
+      gsap.to("#hero-cursor", { opacity: 0, duration: 0.3 });
+    })
+    // Fade in del resto escalonado
+    .to(".hero-fade", {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      stagger: 0.15,
+      ease: "power2.out",
+    })
+    .to("#hero-img-desktop", { opacity: 1, duration: 0.6, ease: "power2.out" }, "-=0.3")
+    .to("#hero-right", { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.4");
+  }
+
+  // Al cargar la página el título ya está vacío, solo correr animación
+  runHeroAnimation();
+
+  // Al volver con scroll
+  ScrollTrigger.create({
+    trigger: "#home",
+    start: "top 80%",
+    onEnterBack: () => {
+      gsap.killTweensOf("#hero-cursor");
+      resetHero();
+      setTimeout(() => runHeroAnimation(), 100);
+    },
+  });
+</script>
