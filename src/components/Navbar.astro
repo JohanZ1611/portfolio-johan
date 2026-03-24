@@ -9,19 +9,19 @@ const links = [
 ---
 
 <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-transparent">
-  <a href="#home" class="font-bold text-lg">JZ</a>
+  <a href="#home" data-scroll class="font-bold text-lg">JZ</a>
 
   <ul class="hidden md:flex gap-8">
     {links.map(l => (
       <li>
-        <a href={l.href} data-section={l.href.replace('#', '')} class="nav-link relative px-3 py-1 text-sm text-gray-700 hover:text-[#28656C] transition-colors" style="font-family: 'Saira Condensed', sans-serif; font-weight: 400;">
+        <a href={l.href} data-scroll data-section={l.href.replace('#', '')} class="nav-link relative px-3 py-1 text-sm text-gray-700 hover:text-[#28656C] transition-colors" style="font-family: 'Saira Condensed', sans-serif; font-weight: 400;">
           {l.label}
         </a>
       </li>
     ))}
   </ul>
 
-  <a href="#contact" class="hidden md:block text-sm border border-gray-800 px-4 py-2 rounded hover:bg-gray-800 hover:text-white transition-colors">
+  <a href="#contact" data-scroll class="hidden md:block text-sm border border-gray-800 px-4 py-2 rounded hover:bg-gray-800 hover:text-white transition-colors">
     Download CV
   </a>
 
@@ -34,8 +34,7 @@ const links = [
   <ul id="mobile-menu" class="hidden flex-col absolute top-full left-0 right-0 bg-white shadow-lg px-8 py-4 gap-4">
     {links.map(l => (
       <li>
-        <a href={l.href} class="mobile-link block py-2 text-sm border-b border-gray-100"
-          style="font-family: 'Saira Condensed', sans-serif;">
+        <a href={l.href} data-scroll class="mobile-link block py-2 text-sm border-b border-gray-100" style="font-family: 'Saira Condensed', sans-serif;">
           {l.label}
         </a>
       </li>
@@ -44,6 +43,10 @@ const links = [
 </nav>
 
 <style>
+  .nav-link {
+    transition: color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+  }
+
   .nav-link.active {
     color: #28656C;
     font-weight: 700;
@@ -55,22 +58,47 @@ const links = [
 </style>
 
 <script>
-  // Mobile menu
+  import { gsap } from "gsap";
+  import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
+
+  // Scroll suave con GSAP
+  document.querySelectorAll('a[data-scroll]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      gsap.to(window, {
+        duration: 0.1,
+        scrollTo: {
+          y: target,
+          offsetY: 0,
+        },
+        ease: "power3.inOut",
+      });
+
+      const menu = document.getElementById('mobile-menu');
+      menu?.classList.add('hidden');
+      menu?.classList.remove('flex');
+    });
+  });
+
+  // Mobile menu toggle
   const btn = document.getElementById('menu-btn');
   const menu = document.getElementById('mobile-menu');
   btn?.addEventListener('click', () => {
     menu?.classList.toggle('hidden');
     menu?.classList.toggle('flex');
   });
-  document.querySelectorAll('.mobile-link').forEach(l =>
-    l.addEventListener('click', () => {
-      menu?.classList.add('hidden');
-      menu?.classList.remove('flex');
-    })
-  );
 
   // Active section detection
-  const sections = document.querySelectorAll('section[id], footer[id]');
+  const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
 
   const observer = new IntersectionObserver(
@@ -89,8 +117,22 @@ const links = [
         }
       });
     },
-    { threshold: 0.5 }
+    { threshold: 0.4 }
   );
 
   sections.forEach((section) => observer.observe(section));
+
+  // Fondo del nav al hacer scroll
+  const nav = document.querySelector('nav') as HTMLElement;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      nav.style.backgroundColor = 'rgba(248, 247, 241, 0.25)';
+      nav.style.backdropFilter = 'blur(8px)';
+      nav.style.transition = 'background-color 0.3s ease, backdrop-filter 0.3s ease';
+    } else {
+      nav.style.backgroundColor = 'transparent';
+      nav.style.backdropFilter = 'none';
+    }
+  });
 </script>
